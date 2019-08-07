@@ -1,3 +1,4 @@
+import logging
 import os
 
 import telebot
@@ -6,6 +7,9 @@ from flask import Flask, request
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
+
+logger = telebot.logger
+telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 
 
 @bot.message_handler(commands=['start'])
