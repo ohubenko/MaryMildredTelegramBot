@@ -1,1 +1,1 @@
-web:python3 telegramBot.py
+mildredbot: python3 main.py
