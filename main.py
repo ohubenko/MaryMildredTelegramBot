@@ -16,7 +16,7 @@ telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 def start(message):
     bot.reply_to(message,
                  'Привет, ' + message.from_user.first_name +
-                 '. Теперь ты будешь поулчать уведомления о начале стрима, а также о новых постах в группе VK')
+                 '. Теперь ты будешь получать уведомления о начале стрима, а также о новых постах в группе VK')
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
