@@ -34,7 +34,7 @@ def getMessage():
 
 @server.route('/' + twitch_bearer)
 def twitch_page():
-    return "This page for twitch", 200
+    return "", 200
 
 
 @server.route('/' + twitch_bearer, methods=['POST', 'GET'])
