@@ -5,6 +5,7 @@ import telebot
 from flask import Flask, request
 
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
+twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
@@ -29,6 +30,12 @@ def echo_message(message):
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
+
+
+@server.route('/' + twitch_bearer, methods=['POST'])
+def get_stream_status():
+    print("WOW this work?!")
+    return "Stream status", 200
 
 
 @server.route("/")
