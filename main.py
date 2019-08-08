@@ -39,7 +39,7 @@ def twitch_page():
 
 @server.route('/' + twitch_bearer, methods=['POST', 'GET'])
 def get_stream_status():
-    print("WOW this work?!")
+    bot.send_message(548488172,"Wow")
     return "Stream status", 200
 
 
