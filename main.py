@@ -37,7 +37,7 @@ def twitch_page():
     return "This page for twitch", 200
 
 
-@server.route('/' + twitch_bearer, methods=['POST'])
+@server.route('/' + twitch_bearer, methods=['POST', 'GET'])
 def get_stream_status():
     print("WOW this work?!")
     return "Stream status", 200
