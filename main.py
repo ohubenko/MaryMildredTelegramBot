@@ -43,8 +43,8 @@ def get_stream_status():
 @server.route('/' + "EagleStatus", methods=['GET'])
 def get_stream_status():
     bot.send_message(548488172, "Разработчик начал стрим!!")
-    rd = request.args.get('hub.challenge')
-    return rd, 200
+    rd2 = request.args.get('hub.challenge')
+    return rd2, 200
 
 
 @server.route("/")
