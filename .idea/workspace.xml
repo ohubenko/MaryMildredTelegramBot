@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ba24027c-4237-43cb-bca6-ba0f2eb67770" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +56,8 @@
       <workItem from="1565247940456" duration="1697000" />
       <workItem from="1565250122396" duration="5440000" />
       <workItem from="1565275192423" duration="116000" />
-      <workItem from="1565592392250" duration="4053000" />
+      <workItem from="1565592392250" duration="5880000" />
+      <workItem from="1565611199382" duration="822000" />
     </task>
     <task id="LOCAL-00001" summary="Fix msg">
       <created>1565208928125</created>

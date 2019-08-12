@@ -3,6 +3,7 @@ import os
 
 import telebot
 from flask import Flask, request
+import requests as rq
 
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
 twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
@@ -12,6 +13,7 @@ server = Flask(__name__)
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 
+print("ITS a LIVE!!!!")
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -32,15 +34,14 @@ def getMessage():
     return "!", 200
 
 
-@server.route('/' + "mildredStatus")
-def twitch_page():
-    return "P7QeMPYi3mDxdJTSQRYLQA1l0rYHGFP28yAO", 200
-
-
-@server.route('/' + "mildredStatus", methods=['POST', 'GET'])
+@server.route('/' + "mildredStatus", methods=['GET'])
 def get_stream_status():
-    bot.send_message(548488172,"Wow")
-    return "Stream Online", 200
+    bot.send_message(548488172, "Wow")
+    hub_challange = rq.get().request()
+    ls = request.get_json(force=True)
+    print("Che za pidec:")
+    print(ls)
+    return hub_challange, 200
 
 
 @server.route("/")
