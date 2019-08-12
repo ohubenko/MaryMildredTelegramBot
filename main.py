@@ -37,11 +37,10 @@ def getMessage():
 @server.route('/' + "mildredStatus", methods=['GET'])
 def get_stream_status():
     bot.send_message(548488172, "Wow")
-    hub_challange = rq.get().request()
     ls = request.get_json(force=True)
     print("Che za pidec:")
     print(ls)
-    return hub_challange, 200
+    return "", 200
 
 
 @server.route("/")
