@@ -34,10 +34,10 @@ def getMessage():
     return "!", 200
 
 
-# @server.route('/' + "mildredStatus", methods=['GET'])
-# def get_stream_status():
-#     rd = request.args.get('hub.challenge')
-#     return rd, 200
+@server.route('/' + "mildredStatus", methods=['GET'])
+def get_stream_status():
+    rd = request.args.get('hub.challenge')
+    return rd, 200
 
 
 # @server.route('/' + "EagleStatus", methods=['GET'])
@@ -48,11 +48,11 @@ def getMessage():
 #     return rd2, 200
 
 
-@server.route('/' + "EagleStatus", methods=['POST'])
-def get_stream_status():
-    print(request.method.name)
-    bot.send_message(548488172, "Разработчик начал стрим!!")
-    return "", 200
+# @server.route('/' + "EagleStatus", methods=['POST'])
+# def get_stream_status():
+#     print(request.method.name)
+#     bot.send_message(548488172, "Разработчик начал стрим!!")
+#     return "", 200
 
 
 @server.route("/")
