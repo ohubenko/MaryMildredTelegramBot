@@ -1,6 +1,7 @@
 import logging
 import os
 
+import pymongo
 import telebot
 from flask import Flask, request
 
@@ -9,12 +10,17 @@ twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
+# MongoDB
+client = pymongo.MongoClient(
+    "mongodb+srv://MrEagle:HFf6see7FBuu2DN@mildredbot-2z363.mongodb.net/test?retryWrites=true&w=majority")
+db = client.test
+#
+# Logger
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 
-print("ITS a LIVE!!!!")
 
-
+#
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.reply_to(message,
