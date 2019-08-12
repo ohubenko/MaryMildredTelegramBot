@@ -3,7 +3,6 @@ import os
 
 import telebot
 from flask import Flask, request
-import requests as rq
 
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
 twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
@@ -37,8 +36,8 @@ def getMessage():
 @server.route('/' + "mildredStatus", methods=['GET'])
 def get_stream_status():
     bot.send_message(548488172, "Wow")
-    ls = request.get_json(force=True)
-    return ls, 200
+    rd = request.args.get('hub.challenge')
+    return rd, 200
 
 
 @server.route("/")
