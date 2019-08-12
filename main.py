@@ -40,15 +40,17 @@ def getMessage():
 #     return rd, 200
 
 
-@server.route('/' + "EagleStatus", methods=['GET'])
-def get_stream_status():
-    bot.send_message(548488172, "WebHook установлен")
-    rd2 = request.args.get('hub.challenge')
-    return rd2, 200
+# @server.route('/' + "EagleStatus", methods=['GET'])
+# def get_stream_status():
+#
+#     bot.send_message(548488172, "WebHook установлен")
+#     rd2 = request.args.get('hub.challenge')
+#     return rd2, 200
 
 
 @server.route('/' + "EagleStatus", methods=['POST'])
 def get_stream_status():
+    print(request.method.name)
     bot.send_message(548488172, "Разработчик начал стрим!!")
     return "", 200
 
