@@ -14,6 +14,7 @@ telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 
 print("ITS a LIVE!!!!")
 
+
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.reply_to(message,
@@ -35,7 +36,13 @@ def getMessage():
 
 @server.route('/' + "mildredStatus", methods=['GET'])
 def get_stream_status():
-    bot.send_message(548488172, "Wow")
+    rd = request.args.get('hub.challenge')
+    return rd, 200
+
+
+@server.route('/' + "EagleStatus", methods=['GET'])
+def get_stream_status():
+    bot.send_message(548488172, "Разработчик начал стрим!!")
     rd = request.args.get('hub.challenge')
     return rd, 200
 
