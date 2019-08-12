@@ -32,12 +32,12 @@ def getMessage():
     return "!", 200
 
 
-@server.route('/' + twitch_bearer)
+@server.route('/' + "mildredStatus")
 def twitch_page():
-    return "", 200
+    return "This is work good!", 200
 
 
-@server.route('/' + twitch_bearer, methods=['POST', 'GET'])
+@server.route('/' + "mildredStatus", methods=['POST', 'GET'])
 def get_stream_status():
     bot.send_message(548488172,"Wow")
     return "Stream status", 200
