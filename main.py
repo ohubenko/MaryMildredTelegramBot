@@ -40,6 +40,12 @@ def get_stream_status():
     return rd, 200
 
 
+@server.route('/mildredStatus', methods=['POST'])
+def aler_about_stream():
+    bot.send_message(548488172, "Маша стримит")
+    return "", 200
+
+
 # @server.route('/' + "EagleStatus", methods=['GET'])
 # def get_stream_status():
 #
