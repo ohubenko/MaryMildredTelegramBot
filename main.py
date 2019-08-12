@@ -34,13 +34,13 @@ def getMessage():
 
 @server.route('/' + "mildredStatus")
 def twitch_page():
-    return "This is work good!", 200
+    return "4omc5eg0biroo76o07ovun1rkt75kj", 200
 
 
 @server.route('/' + "mildredStatus", methods=['POST', 'GET'])
 def get_stream_status():
     bot.send_message(548488172,"Wow")
-    return "Stream status", 200
+    return "Stream Online", 200
 
 
 @server.route("/")
