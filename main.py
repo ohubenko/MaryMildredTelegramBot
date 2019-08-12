@@ -34,7 +34,7 @@ def getMessage():
 
 @server.route('/' + "mildredStatus")
 def twitch_page():
-    return "4omc5eg0biroo76o07ovun1rkt75kj", 200
+    return "P7QeMPYi3mDxdJTSQRYLQA1l0rYHGFP28yAO", 200
 
 
 @server.route('/' + "mildredStatus", methods=['POST', 'GET'])
