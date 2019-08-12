@@ -41,7 +41,7 @@ def get_stream_status():
 
 
 @server.route('/mildredStatus', methods=['POST'])
-def aler_about_stream():
+def alert_about_stream():
     bot.send_message(548488172, "Маша стримит")
     return "", 200
 
