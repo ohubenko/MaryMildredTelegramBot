@@ -23,14 +23,18 @@ telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 #
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message,
-                 'Привет, ' + message.from_user.first_name +
-                 '. Теперь ты будешь получать уведомления о начале стрима, а также о новых постах в группе VK')
     if records.find({"id": message.chat.id}) is None:
         new_user = {"id": message.chat.id,
                     "first_name": message.chat.first_name,
                     "username": message.chat.username}
         records.insert(new_user)
+        bot.reply_to(message,
+                     'Привет, ' + message.from_user.first_name +
+                     '. Теперь ты будешь получать уведомления о начале стрима, а также о новых постах в группе VK')
+    else:
+        bot.reply_to(message,
+                     'Привет, ' + message.from_user.first_name +
+                     ". Ты уже подписан на уведомелния. Чтобы отменить подписку используй комманду /stop")
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
