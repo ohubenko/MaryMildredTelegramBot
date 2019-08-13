@@ -84,9 +84,8 @@ def stream_webhook():
 def get_Stream_status():
     users = records.find({}, {"_id": 1})
     for user in users:
-        print(user)
-    bot.send_message(548488172, "Разработчик начал стрим!!")
-    return "", 200
+        bot.send_message(user.get("_id"), "Разработчик начал стрим!!")
+    return "Done", 200
 
 
 @server.route("/")
