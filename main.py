@@ -44,9 +44,8 @@ def start(message):
 
 @bot.message_handler(commands=['stop'])
 def stop(message):
-    records.find_one_and_delete({"_id":message.chat.id})
+    records.find_one_and_delete({"_id": message.chat.id})
     bot.reply_to(message, "Ты больше не будешь получать уведомления. Надеюсь ты вернешься.")
-
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
@@ -83,7 +82,8 @@ def stream_webhook():
 
 @server.route('/EagleStatus', methods=['POST'])
 def get_Stream_status():
-    bot.send_message(548488172, "Разработчик начал стрим!!")
+    for user in records.find({}, {"_id": 1}):
+        bot.send_message(int(user), "Разработчик начал стрим!!")
     return "", 200
 
 
