@@ -11,10 +11,10 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
 # MongoDB
-# client = pymongo.MongoClient(
-#     "mongodb+srv://MrEagle:HFf6see7FBuu2DN@mildredbot-2z363.mongodb.net/test?retryWrites=true&w=majority")
-# db = client.test
-# #
+client = pymongo.MongoClient(
+    "mongodb+srv://MrEagle:HFf6see7FBuu2DN@mildredbot-2z363.mongodb.net/test?retryWrites=true&w=majority")
+db = client.users
+
 # Logger
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
