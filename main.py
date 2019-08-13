@@ -14,8 +14,9 @@ server = Flask(__name__)
 # MongoDB
 # client = MongoClient(
 #     "mongodb+srv://MildredBot:SaMp4721@mildredbot-2z363.mongodb.net/MildredBot?retryWrites=true&w=majority")
-# db = client.get_database('MildredBot')
-# records = db.users
+client = MongoClient("mongodb://MildredBot:SaMp4721@ds261377.mlab.com:61377")
+db = client.get_database('heroku_03snt0h5')
+records = db.users
 
 # Logger
 logger = telebot.logger
