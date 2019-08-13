@@ -2,7 +2,6 @@ import logging
 import os
 
 import pymongo
-from pymongo import MongoClient
 import telebot
 from flask import Flask, request
 
@@ -14,9 +13,9 @@ server = Flask(__name__)
 # MongoDB
 # client = MongoClient(
 #     "mongodb+srv://MildredBot:SaMp4721@mildredbot-2z363.mongodb.net/MildredBot?retryWrites=true&w=majority")
-client = MongoClient("mongodb://MildredBot:SaMp4721@ds261377.mlab.com:61377")
+client = pymongo.MongoClient("mongodb://MildredBot:SaMp4721@ds261377.mlab.com:61377")
 db = client.get_database('heroku_03snt0h5')
-records = db.users
+records = db["users"]
 
 # Logger
 logger = telebot.logger
@@ -29,6 +28,11 @@ def start(message):
     bot.reply_to(message,
                  'Привет, ' + message.from_user.first_name +
                  '. Теперь ты будешь получать уведомления о начале стрима, а также о новых постах в группе VK')
+    # new_user = {'user_name':str(message.from_user.first_name),
+    #     #             'msg_id':str(message.message_id)}
+    new_user = {'user_name': 'Admin',
+                'userd_id': 1}
+    records.insert(new_user)
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
