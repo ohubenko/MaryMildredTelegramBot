@@ -76,13 +76,6 @@ def alert_about_stream():
     return "Done", 200
 
 
-@server.route('/EagleStatus', methods=['GET'])
-def stream_webhook():
-    bot.send_message(548488172, "WebHook установлен")
-    rd2 = request.args.get('hub.challenge')
-    return rd2, 200
-
-
 @server.route("/")
 def webhook():
     bot.remove_webhook()
