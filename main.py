@@ -87,7 +87,7 @@ def get_Stream_status():
         print("\n")
         print("\n")
         print("\n")
-        print(user)
+        print(user.values)
     bot.send_message(548488172, "Разработчик начал стрим!!")
     return "", 200
 
