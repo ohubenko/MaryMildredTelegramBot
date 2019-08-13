@@ -76,6 +76,11 @@ def alert_about_stream():
     return "Done", 200
 
 
+@server.route('/EagleStatus"')
+def test():
+    return "hello"
+
+
 @server.route('/EagleStatus"', methods=['GET'])
 def stream_webhook():
     bot.send_message(548488172, "WebHook установлен")
