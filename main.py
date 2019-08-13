@@ -82,8 +82,12 @@ def stream_webhook():
 
 @server.route('/EagleStatus', methods=['POST'])
 def get_Stream_status():
-    for user in records.find({}, {"_id": 1}):
-        print("\n"+user+"\n")
+    users = records.find({}, {"_id": 1})
+    for user in users:
+        print("\n")
+        print("\n")
+        print("\n")
+        print(user)
     bot.send_message(548488172, "Разработчик начал стрим!!")
     return "", 200
 
