@@ -2,6 +2,7 @@ import logging
 import os
 
 import pymongo
+from pymongo import MongoClient
 import telebot
 from flask import Flask, request
 
@@ -11,9 +12,10 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
 # MongoDB
-# client = pymongo.MongoClient(
-#     "mongodb+srv://MrEagle:HFf6see7FBuu2DN@mildredbot-2z363.mongodb.net/users?retryWrites=true&w=majority")
-# db = client.users
+client = MongoClient(
+    "mongodb+srv://MildredBot:SaMp4721@mildredbot-2z363.mongodb.net/MildredBot?retryWrites=true&w=majority")
+db = client.get_database('MildredBot')
+records = db.users
 
 # Logger
 logger = telebot.logger
