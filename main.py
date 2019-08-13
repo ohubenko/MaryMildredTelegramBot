@@ -28,7 +28,6 @@ def start(message):
     for find_user in user:
         find_user = user
     print(user)
-    print(user[0])
     # if records.find(user):
     #     new_user = {"_id": message.chat.id,
     #                 "first_name": message.chat.first_name,
