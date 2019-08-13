@@ -7,6 +7,7 @@ from flask import Flask, request
 
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
 twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
+streamer_url = "https://www.twitch.tv/mary_mildred"
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
@@ -63,29 +64,16 @@ def get_message():
 @server.route('/' + "mildredStatus", methods=['GET'])
 def get_stream_status():
     bot.send_message(548488172, "WebHook установлен")
-    rd = request.args.get('hub.challenge')
-    return rd, 200
+    response = request.args.get('hub.challenge')
+    return response, 200
 
 
 @server.route('/mildredStatus', methods=['POST'])
 def alert_about_stream():
-    bot.send_message(548488172, "Маша стримит")
-    return "", 200
-
-
-@server.route('/' + 'EagleStatus"', methods=['GET'])
-def stream_webhook():
-    bot.send_message(548488172, "WebHook установлен")
-    rd2 = request.args.get('hub.challenge')
-    return rd2, 200
-
-
-@server.route('/EagleStatus', methods=['POST'])
-def get_Stream_status():
-    users = records.find({}, {"_id": 1})
-    for user in users:
-        bot.send_message(user.get("_id"), "Разработчик начал стрим!!")
-    return "Done", 200
+    for user in records.find({}, {"_id": 1}):
+        bot.send_message(user.get("_id"), "Ау!!! Тут стрим начался, приходи скроее!")
+        bot.send_message(user.get("_id"), streamer_url)
+    return "Done!", 200
 
 
 @server.route("/")
