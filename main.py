@@ -67,19 +67,20 @@ def get_stream_status():
     response = request.args.get('hub.challenge')
     return response, 200
 
-@server.route('/' + "EagleStatus", methods=['GET'])
-def get_stream_status():
-    bot.send_message(548488172, "WebHook установлен")
-    response = request.args.get('hub.challenge')
-    return response, 200
-
 
 @server.route('/mildredStatus', methods=['POST'])
 def alert_about_stream():
     for user in records.find({}, {"_id": 1}):
-        bot.send_message(user.get("_id"), "Ау!!! Тут стрим начался, приходи скроее!")
-        bot.send_message(user.get("_id"), streamer_url)
-    return "Done!", 200
+        bot.send_message(int(user.get("_id")), "Ау !!! Тут стрим начался!!!!")
+        bot.send_message(int(user.get("_id")), streamer_url)
+    return "Done", 200
+
+
+@server.route('/' + 'EagleStatus"', methods=['GET'])
+def stream_webhook():
+    bot.send_message(548488172, "WebHook установлен")
+    rd2 = request.args.get('hub.challenge')
+    return rd2, 200
 
 
 @server.route("/")
