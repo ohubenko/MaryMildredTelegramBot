@@ -23,7 +23,7 @@ telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 #
 @bot.message_handler(commands=['start'])
 def start(message):
-    if records.find({"id": message.chat.id}):
+    if records.find({"id": message.chat.id, "first_name": message.chat.first_name, "username": message.chat.username}):
         new_user = {"id": message.chat.id,
                     "first_name": message.chat.first_name,
                     "username": message.chat.username}
