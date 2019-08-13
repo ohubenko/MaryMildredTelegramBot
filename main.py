@@ -23,7 +23,7 @@ telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 
 # Body
 @bot.message_handler(commands=['start'])
-def start(message):
+def command_start(message):
     user = records.find({"_id": message.chat.id})
     find_user = None
     for find_user in user:
@@ -44,7 +44,7 @@ def start(message):
 
 
 @bot.message_handler(commands=['stop'])
-def stop(message):
+def command_stop(message):
     records.find_one_and_delete({"_id": message.chat.id})
     bot.reply_to(message, "Ты больше не будешь получать уведомления. Надеюсь ты вернешься.")
 
@@ -62,7 +62,7 @@ def get_message():
 
 
 @server.route('/' + "mildredStatus", methods=['GET'])
-def get_stream_status():
+def set_twitch_hook():
     bot.send_message(548488172, "WebHook установлен")
     rd = request.args.get('hub.challenge')
     return rd, 200
