@@ -26,8 +26,11 @@ def start(message):
     bot.reply_to(message,
                  'Привет, ' + message.from_user.first_name +
                  '. Теперь ты будешь получать уведомления о начале стрима, а также о новых постах в группе VK')
-    new_user = {'msg_chat_id':message.chat.id}
-    records.insert(new_user)
+    if records.find({"id": message.chat.id}) is None:
+        new_user = {"id": message.chat.id,
+                    "first_name": message.chat.first_name,
+                    "username": message.chat.username}
+        records.insert(new_user)
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
