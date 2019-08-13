@@ -28,7 +28,7 @@ def start(message):
     for find_user in user:
         find_user = user
 
-    if find_user == None:
+    if find_user is None:
         new_user = {"_id": message.chat.id,
                     "first_name": message.chat.first_name,
                     "username": message.chat.username}
@@ -42,6 +42,13 @@ def start(message):
                      ". Ты уже подписан на уведомелния. Чтобы отменить подписку используй комманду /stop")
 
 
+@bot.message_handler(commands=['stop'])
+def stop(message):
+    records.find_one_and_delete({"_id":message.chat.id})
+    bot.reply_to(message, "Ты больше не будешь получать уведомления. Надеюсь ты вернешься.")
+
+
+
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def echo_message(message):
     bot.reply_to(message,
@@ -49,13 +56,14 @@ def echo_message(message):
 
 
 @server.route('/' + TOKEN, methods=['POST'])
-def getMessage():
+def get_message():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
 
 
 @server.route('/' + "mildredStatus", methods=['GET'])
 def get_stream_status():
+    bot.send_message(548488172, "WebHook установлен")
     rd = request.args.get('hub.challenge')
     return rd, 200
 
