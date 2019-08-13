@@ -27,20 +27,19 @@ def start(message):
     find_user = None
     for find_user in user:
         find_user = user
-    print(user)
-    # if records.find(user):
-    #     new_user = {"_id": message.chat.id,
-    #                 "first_name": message.chat.first_name,
-    #                 "username": message.chat.username}
-    #     records.insert(new_user)
-    #     bot.reply_to(message,
-    #                  'Привет, ' + message.from_user.first_name +
-    #                  '. Теперь ты будешь получать уведомления о начале стрима, а также о новых постах в группе VK')
-    # else:
-    #     bot.reply_to(message,
-    #                  'Привет, ' + message.from_user.first_name +
-    #                  ". Ты уже подписан на уведомелния. Чтобы отменить подписку используй комманду /stop")
-    bot.reply_to(message, "Pfff")
+
+    if find_user == None:
+        new_user = {"_id": message.chat.id,
+                    "first_name": message.chat.first_name,
+                    "username": message.chat.username}
+        records.insert(new_user)
+        bot.reply_to(message,
+                     'Привет, ' + message.from_user.first_name +
+                     '. Теперь ты будешь получать уведомления о начале стрима, а также о новых постах в группе VK')
+    else:
+        bot.reply_to(message,
+                     'Привет, ' + message.from_user.first_name +
+                     ". Ты уже подписан на уведомелния. Чтобы отменить подписку используй комманду /stop")
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
