@@ -26,6 +26,9 @@ telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 def start(message):
     user = {"_id": message.chat.id}
     users = records.find(user)
+    print("\n")
+    print("\n")
+    print("\n")
     for x in users:
         print(x)
     # if records.find(user):
