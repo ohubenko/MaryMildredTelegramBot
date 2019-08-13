@@ -64,8 +64,8 @@ def get_message():
 @server.route('/' + "mildredStatus", methods=['GET'])
 def get_stream_status():
     bot.send_message(548488172, "WebHook установлен")
-    hub_challenge = request.args.get('hub.challenge')
-    return hub_challenge, 200
+    rd = request.args.get('hub.challenge')
+    return rd, 200
 
 
 @server.route('/mildredStatus', methods=['POST'])
