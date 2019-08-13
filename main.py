@@ -12,10 +12,10 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
 # MongoDB
-client = MongoClient(
-    "mongodb+srv://MildredBot:SaMp4721@mildredbot-2z363.mongodb.net/MildredBot?retryWrites=true&w=majority")
-db = client.get_database('MildredBot')
-records = db.users
+# client = MongoClient(
+#     "mongodb+srv://MildredBot:SaMp4721@mildredbot-2z363.mongodb.net/MildredBot?retryWrites=true&w=majority")
+# db = client.get_database('MildredBot')
+# records = db.users
 
 # Logger
 logger = telebot.logger
