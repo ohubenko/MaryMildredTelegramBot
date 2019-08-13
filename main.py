@@ -20,17 +20,15 @@ logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 
 
-
 # Body
 @bot.message_handler(commands=['start'])
 def start(message):
-    users = records.find({"_id": message.chat.id})
-    user = None
-    for user in users:
-        user = users
-    print("\n")
-    print("\n")
+    user = records.find({"_id": message.chat.id})
+    find_user = None
+    for find_user in user:
+        find_user = user
     print(user)
+    print(user[0])
     # if records.find(user):
     #     new_user = {"_id": message.chat.id,
     #                 "first_name": message.chat.first_name,
@@ -43,7 +41,7 @@ def start(message):
     #     bot.reply_to(message,
     #                  'Привет, ' + message.from_user.first_name +
     #                  ". Ты уже подписан на уведомелния. Чтобы отменить подписку используй комманду /stop")
-    bot.reply_to(message,"Pfff")
+    bot.reply_to(message, "Pfff")
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
