@@ -85,7 +85,7 @@ def get_Stream_status():
     users = records.find({}, {"_id": 1})
     for user in users:
         user_dict = dict(user)
-        print(user_dict.values)
+        print(int(user_dict.values))
     bot.send_message(548488172, "Разработчик начал стрим!!")
     return "", 200
 
