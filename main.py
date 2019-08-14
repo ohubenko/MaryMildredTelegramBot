@@ -105,7 +105,7 @@ def twitch_hook_alert():
             bot.send_message(int(user.get("_id")), streamer_url)
         return "Done", 200
     else:
-        return "None", 404
+        return "Nope", 404
 
 
 @server.route("/")
