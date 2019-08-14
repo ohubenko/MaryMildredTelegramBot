@@ -85,7 +85,7 @@ def get_message():
     return "!", 200
 
 # TODO: Добавить проверку на валидность запроса, проверка на то что запрос из Twitch или нет
-@server.route('/mildredStatus', methods=['GET'])
+@server.route('/' + "mildredStatus", methods=['GET'])
 def set_twitch_hook():
     """
     Ответ на GET запрос от Twitch, нужен для установки WebHook, отвечает hub.challenge
