@@ -97,7 +97,7 @@ def twitch_hook_alert():
     if request.method == 'GET':
         bot.send_message(admin_id, "WebHook установлен")
         rd = request.args.get('hub.challenge')
-        return rd, 200
+        return str(rd), 200
     elif request.method == 'POST':
         for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
             # потом из колекции мы берём значение ключа
