@@ -87,7 +87,7 @@ def get_message():
 
 # TODO: Добавить проверку на валидность запроса, проверка на то что запрос из Twitch или нет
 # TODO: Посмотреть чего не работает путь как на хуке
-@server.route('/' + "mildredStatus", methods=['GET', 'POST'])
+@server.route('/' + 'mildredStatus', methods=['GET', 'POST'])
 def twitch_hook_alert():
     """
     Ответ на GET запрос от Twitch, нужен для установки WebHook, отвечает hub.challenge
@@ -95,8 +95,8 @@ def twitch_hook_alert():
     :return:
     """
     if request.method == 'GET':
-        bot.send_message(admin_id, "WebHook установлен")
         rd = request.args.get('hub.challenge')
+        bot.send_message(admin_id, "WebHook установлен")
         return str(rd), 200
     elif request.method == 'POST':
         for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
