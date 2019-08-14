@@ -5,13 +5,15 @@ import pymongo
 import telebot
 from flask import Flask, request
 
+# Важные переменные
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
 twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
 streamer_url = "https://www.twitch.tv/mary_mildred"
+admin_id = 548488172
+# Создание бота и приложения Flask
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
-
-# MongoDB
+# MongoDB_MLab
 client = pymongo.MongoClient("mongodb://MildredBot:SaMp4721@ds261377.mlab.com:61377/heroku_03snt0h5")
 db = client.get_database('heroku_03snt0h5')
 records = db["users"]
@@ -21,11 +23,19 @@ logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 
 
+# Выводит входящие и исходящие сообщения что приходят от Telegram
+
 # Body
 @bot.message_handler(commands=['start'])
 def command_start(message):
-    user = records.find({"_id": message.chat.id})
-    find_user = None
+    """
+    Ищет пользователя в БД, если находит тогда выводит сообщение что он уже подписан на уведомления.
+    Если нет тогда добавляет chat_id, first_name, username в БД
+    :param message:
+    :return:
+    """
+    user = records.find({"_id": message.chat.id})  # Забирает колекцию пользователя(ей)
+    find_user = None  # Нужно для опредиления найден ли пользователь если нету то он остаеться None
     for find_user in user:
         find_user = user
 
@@ -45,32 +55,55 @@ def command_start(message):
 
 @bot.message_handler(commands=['stop'])
 def command_stop(message):
+    """
+    Отписывает конкретного пользователя от рассылки и удаляет его из БД
+    :param message:
+    :return:
+    """
     records.find_one_and_delete({"_id": message.chat.id})
     bot.reply_to(message, "Ты больше не будешь получать уведомления. Надеюсь ты вернешься.")
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def echo_message(message):
+    """
+    Отвечает на любые сообщение, на которых нет ответа.
+    :param message:
+    :return:
+    """
     bot.reply_to(message,
                  "Извини, я ищё не умею отвечать на обычные сообщения. Но скоро я смогу с тобой полноценно общаться")
 
 
 @server.route('/' + TOKEN, methods=['POST'])
 def get_message():
+    """
+    Через хук забирает новые сообщения которые приходят боту
+    :return:
+    """
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
 
-
-@server.route('/' + "mildredStatus", methods=['GET'])
+# TODO: Добавить проверку на валидность запроса, проверка на то что запрос из Twitch или нет
+@server.route('/mildredStatus', methods=['GET'])
 def set_twitch_hook():
-    bot.send_message(548488172, "WebHook установлен")
+    """
+    Ответ на GET запрос от Twitch, нужен для установки WebHook, отвечает hub.challenge
+    :return:
+    """
+    bot.send_message(admin_id, "WebHook установлен")
     rd = request.args.get('hub.challenge')
     return rd, 200
 
-
+# TODO: Посмотреть чего не работает путь как на хуке
 @server.route('/mildredStatus', methods=['POST'])
 def alert_about_stream():
-    for user in records.find({}, {"_id": 1}):
+    """
+    Отправляет каждому пользователю из БД уведомление о том что стрим уже начался
+    :return:
+    """
+    for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
+        # потом из колекции мы берём значение ключа
         bot.send_message(int(user.get("_id")), "Ау !!! Тут стрим начался!!!!")
         bot.send_message(int(user.get("_id")), streamer_url)
     return "Done", 200
@@ -78,10 +111,15 @@ def alert_about_stream():
 
 @server.route("/")
 def webhook():
+    """
+    Установка WebHook для telegram, выполняеться каждый раз когда запускаеться скрипт
+    :return:
+    """
     bot.remove_webhook()
     bot.set_webhook(url='https://marymildred-bot.herokuapp.com/' + TOKEN)
     return "Bot has been work!", 200
 
 
+# Запуск сервера
 if __name__ == "__main__":
     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
