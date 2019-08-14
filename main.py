@@ -84,29 +84,28 @@ def get_message():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
 
+
 # TODO: Добавить проверку на валидность запроса, проверка на то что запрос из Twitch или нет
-@server.route('/' + "mildredStatus", methods=['GET'])
-def set_twitch_hook():
+# TODO: Посмотреть чего не работает путь как на хуке
+@server.route('/' + "mildredStatus", methods=['GET', 'POST'])
+def twitch_hook_alert():
     """
     Ответ на GET запрос от Twitch, нужен для установки WebHook, отвечает hub.challenge
-    :return:
-    """
-    bot.send_message(admin_id, "WebHook установлен")
-    rd = request.args.get('hub.challenge')
-    return rd, 200
-
-# TODO: Посмотреть чего не работает путь как на хуке
-@server.route('/mildredStatus', methods=['POST'])
-def alert_about_stream():
-    """
     Отправляет каждому пользователю из БД уведомление о том что стрим уже начался
     :return:
     """
-    for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
-        # потом из колекции мы берём значение ключа
-        bot.send_message(int(user.get("_id")), "Ау !!! Тут стрим начался!!!!")
-        bot.send_message(int(user.get("_id")), streamer_url)
-    return "Done", 200
+    if request.method == 'GET':
+        bot.send_message(admin_id, "WebHook установлен")
+        rd = request.args.get('hub.challenge')
+        return rd, 200
+    elif request.method == 'POST':
+        for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
+            # потом из колекции мы берём значение ключа
+            bot.send_message(int(user.get("_id")), "Ау !!! Тут стрим начался!!!!")
+            bot.send_message(int(user.get("_id")), streamer_url)
+        return "Done", 200
+    else:
+        return "None", 404
 
 
 @server.route("/")
