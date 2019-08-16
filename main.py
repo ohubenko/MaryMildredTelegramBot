@@ -114,7 +114,7 @@ def twitch_hook_alert():
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
     if request.method is 'POST':
-        return "26d6836b"
+        return "26d6836b",200
 
 
 @server.route('/')
