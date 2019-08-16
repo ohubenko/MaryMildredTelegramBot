@@ -113,8 +113,16 @@ def twitch_hook_alert():
 
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
-    if request.method is 'POST':
-        return "26d6836b",200
+    secret = request.args.get('secret')
+    if secret is None or str(secret) is "MySeecretKeyIsNotForYou21":
+        if request.method == 'POST':
+            return "26d6836b", 200
+        elif request.method == 'GET':
+            return 'Test', 200
+        else:
+            return "None", 404
+    else:
+        return "Access denied", 401
 
 
 @server.route('/')
