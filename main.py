@@ -10,6 +10,7 @@ TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
 twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
 streamer_url = "https://www.twitch.tv/mary_mildred"
 admin_id = 548488172
+group_id = -118525812
 # Создание бота и приложения Flask
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
@@ -110,7 +111,13 @@ def twitch_hook_alert():
         return "Nope", 404
 
 
-@server.route("/")
+@server.route('/VkUpdate', methods=['GET', 'POST'])
+def vk_get_wall():
+    if request.method is 'POST':
+        return "26d6836b"
+
+
+@server.route('/')
 def webhook():
     """
     Установка WebHook для telegram, выполняеться каждый раз когда запускаеться скрипт
