@@ -113,6 +113,9 @@ def twitch_hook_alert():
 
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
+    print('\n')
+    print(request.get_json())
+    print('\n')
     secret = request.args.get('secret')
     if str(secret) is "MySeecretKeyIsNotForYou21":
         if request.method == 'POST':
