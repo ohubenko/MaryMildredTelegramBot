@@ -119,9 +119,6 @@ def twitch_test_hook_alert():
     Отправляет каждому пользователю из БД уведомление о том что стрим уже начался
     :return:
     """
-    print("\n")
-    print(request.data)
-    print("\n")
     if request.method == 'GET':
         rd = request.args.get('hub.challenge')
         if rd is None:
@@ -130,6 +127,9 @@ def twitch_test_hook_alert():
             bot.send_message(admin_id, "WebHook установлен")
             return str(rd), 200
     elif request.method == 'POST':
+        print("\n")
+        print(request.get_json())
+        print("\n")
         bot.send_message(admin_id, "Даун тестит соре")
         return "Done", 200
     else:
