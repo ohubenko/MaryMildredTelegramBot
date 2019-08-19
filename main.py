@@ -67,7 +67,7 @@ def echo_message(message):
     :return:
     """
     bot.reply_to(message,
-                 "Извини, я ищё не умею отвечать на обычные сообщения. Но скоро я смогу с тобой полноценно общаться")
+                 "Извини, я ище не умею отвечать на обычные сообщения. Но скоро я смогу с тобой полноценно общаться")
 
 
 @server.route('/' + TOKEN, methods=['POST'])
@@ -141,18 +141,23 @@ def twitch_test_hook_alert():
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
     rq = request.get_json()
-    print('\n')
-    print(rq)
-    print('\n')
-    if str(rq.get('secret')) == 'MySeecretKeyIsNotForYou21':
+    if rq == {'type': 'confirmation', 'group_id': 185560511, 'secret': 'MySeecretKeyIsNotForYou21'}:
         if request.method == 'POST':
             return "26d6836b", 200
         elif request.method == 'GET':
-            return 'Test', 200
+            return 'NotSupported', 200
         else:
-            return "None", 404
+            return "NotSupported", 404
     else:
-        return "Access denied", 401
+        if rq.get('secret') == 'MySeecretKeyIsNotForYou21':
+            if request.method == 'POST':
+                pass
+            elif request.method == 'GET':
+                pass
+            else:
+                return "NotSupported",
+        else:
+            return 'Forbidden', 403
 
 
 @server.route('/')
