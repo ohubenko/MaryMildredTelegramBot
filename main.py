@@ -151,11 +151,11 @@ def vk_get_wall():
     else:
         if rq.get('secret') == 'MySeecretKeyIsNotForYou21':
             if request.method == 'POST':
-                pass
+                return "Ok", 200
             elif request.method == 'GET':
-                pass
+                return "NotSupported", 404
             else:
-                return "NotSupported",
+                return "NotSupported", 404
         else:
             return 'Forbidden', 403
 
