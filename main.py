@@ -122,19 +122,13 @@ def twitch_test_hook_alert():
             bot.send_message(admin_id, "WebHook установлен")
             return str(rd), 200
     elif request.method == 'POST':
-        print('\n')
-        print(request.get_json())
-        print('\n')
-        data = request.args.get('data')
-        print('\n')
-        print(data)
-        print('\n')
-        if data != []:
-            bot.send_message(admin_id, "Даун тестит соре")
-        else:
+        rq_json = request.get_json()
+        if rq_json == {'data': []}:
             print("\n")
             print("Stream has been end")
             print("\n")
+        else:
+            bot.send_message(admin_id, "Даун тестит соре")
         return "Done", 200
     else:
         return "Nope", 404
