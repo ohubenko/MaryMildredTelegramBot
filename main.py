@@ -141,16 +141,7 @@ def twitch_test_hook_alert():
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
     rq = request.get_json()
-    print('\n')
-    print(rq.get('secret'))
-    print('\n')
-    print(str(rq.get('secret')))
-    print('\n')
-    print(str(rq.get('secret')) is 'MySeecretKeyIsNotForYou21')
-    print('\n')
-    print(str(rq.get('secret')) == 'MySeecretKeyIsNotForYou21')
-    print('\n')
-    if str(rq.get('secret')) is 'MySeecretKeyIsNotForYou21':
+    if str(rq.get('secret')) == 'MySeecretKeyIsNotForYou21':
         if request.method == 'POST':
             return "26d6836b", 200
         elif request.method == 'GET':
