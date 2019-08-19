@@ -111,6 +111,32 @@ def twitch_hook_alert():
         return "Nope", 404
 
 
+@server.route('/' + 'AdminTest', methods=['GET', 'POST'])
+def twitch_hook_alert():
+    """
+    Ответ на GET запрос от Twitch, нужен для установки WebHook, отвечает hub.challenge
+    Отправляет каждому пользователю из БД уведомление о том что стрим уже начался
+    :return:
+    """
+    print("\n")
+    print(request.get_data())
+    print("\n")
+    print(request.json())
+    print("\n")
+    if request.method == 'GET':
+        rd = request.args.get('hub.challenge')
+        if rd is None:
+            return "Nope", 404
+        else:
+            bot.send_message(admin_id, "WebHook установлен")
+            return str(rd), 200
+    elif request.method == 'POST':
+        bot.send_message(admin_id, "Даун тестит соре")
+        return "Done", 200
+    else:
+        return "Nope", 404
+
+
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
     secret = request.args.get('secret')
