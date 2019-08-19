@@ -122,8 +122,14 @@ def twitch_test_hook_alert():
             bot.send_message(admin_id, "WebHook установлен")
             return str(rd), 200
     elif request.method == 'POST':
+        print('\n')
+        print(request.get_json())
+        print('\n')
         data = request.args.get('data')
-        if data:
+        print('\n')
+        print(data)
+        print('\n')
+        if data != []:
             bot.send_message(admin_id, "Даун тестит соре")
         else:
             print("\n")
