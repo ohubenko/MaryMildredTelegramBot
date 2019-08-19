@@ -11,6 +11,7 @@ twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
 streamer_url = "https://www.twitch.tv/mary_mildred"
 admin_id = 548488172
 group_id = -118525812
+twitch_secret = "8jpst72r4dcubejbstj5x6axqcdar0"
 # Создание бота и приложения Flask
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
@@ -119,9 +120,7 @@ def twitch_test_hook_alert():
     :return:
     """
     print("\n")
-    print(request.get_data())
-    print("\n")
-    print(request.json())
+    print(request.data)
     print("\n")
     if request.method == 'GET':
         rd = request.args.get('hub.challenge')
