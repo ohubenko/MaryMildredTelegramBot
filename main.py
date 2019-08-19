@@ -134,7 +134,7 @@ def twitch_test_hook_alert():
             print("Stream has been end")
             print("\n")
         else:
-            bot.send_message(admin_id, "Даун тестит соре")
+            bot.send_message(admin_id, "Test alert dev has been live")
         return "Done", 200
     else:
         return "Nope", 404
@@ -143,7 +143,7 @@ def twitch_test_hook_alert():
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
     secret = request.args.get('secret')
-    print(request.args)
+    print(request.get_json())
     if str(secret) is 'MySeecretKeyIsNotForYou21':
         if request.method == 'POST':
             return "26d6836b", 200
