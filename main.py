@@ -1,4 +1,3 @@
-import logging
 import os
 
 import pymongo
@@ -19,10 +18,6 @@ server = Flask(__name__)
 client = pymongo.MongoClient("mongodb://MildredBot:SaMp4721@ds261377.mlab.com:61377/heroku_03snt0h5")
 db = client.get_database('heroku_03snt0h5')
 records = db["users"]
-
-# Logger
-logger = telebot.logger
-telebot.logger.setLevel(logging.DEBUG)  # Outputs debug messages to console.
 
 
 # Выводит входящие и исходящие сообщения что приходят от Telegram
@@ -127,10 +122,13 @@ def twitch_test_hook_alert():
             bot.send_message(admin_id, "WebHook установлен")
             return str(rd), 200
     elif request.method == 'POST':
-        print("\n")
-        print(request.get_json())
-        print("\n")
-        bot.send_message(admin_id, "Даун тестит соре")
+        data = request.args.get('data')
+        if data:
+            bot.send_message(admin_id, "Даун тестит соре")
+        else:
+            print("\n")
+            print("Stream has been end")
+            print("\n")
         return "Done", 200
     else:
         return "Nope", 404
