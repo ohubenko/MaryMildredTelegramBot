@@ -112,7 +112,7 @@ def twitch_hook_alert():
 
 
 @server.route('/' + 'AdminTest', methods=['GET', 'POST'])
-def twitch_hook_alert():
+def twitch_test_hook_alert():
     """
     Ответ на GET запрос от Twitch, нужен для установки WebHook, отвечает hub.challenge
     Отправляет каждому пользователю из БД уведомление о том что стрим уже начался
