@@ -98,10 +98,16 @@ def twitch_hook_alert():
             bot.send_message(admin_id, "WebHook установлен")
             return str(rd), 200
     elif request.method == 'POST':
-        for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
-            # потом из колекции мы берём значение ключа
-            bot.send_message(int(user.get("_id")), "Ау !!! Тут стрим начался!!!!")
-            bot.send_message(int(user.get("_id")), streamer_url)
+        rq_json = request.get_json()
+        if rq_json == {'data': []}:
+            print("\n")
+            print("Stream has been end")
+            print("\n")
+        else:
+            for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
+                # потом из колекции мы берём значение ключа
+                bot.send_message(int(user.get("_id")), "Ау !!! Тут стрим начался!!!!")
+                bot.send_message(int(user.get("_id")), streamer_url)
         return "Done", 200
     else:
         return "Nope", 404
