@@ -158,8 +158,8 @@ def vk_get_wall():
                     post_attachments = post_attachments[0]
                     if post_attachments.get('type') == 'photo':
                         post = post_attachments['photo']['sizes'][-1]
-                        post.get('url')
-                        bot.send_photo(admin_id, 'url')
+
+                        bot.send_photo(admin_id, post.get('url'))
                     elif post_attachments.get('type') == 'link':
                         print("Link")
                     else:
