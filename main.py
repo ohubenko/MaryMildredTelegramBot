@@ -158,6 +158,8 @@ def vk_get_wall():
                 print(post_obj)
                 print('\n')
                 print(type(post_dd))
+                print(type(post_dd[0]))
+                print(type(post_dd[1]))
                 return "Ok", 200
             elif request.method == 'GET':
                 return "NotSupported", 404
