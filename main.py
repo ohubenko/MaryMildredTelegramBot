@@ -3,6 +3,7 @@ import os
 import pymongo
 import telebot
 from flask import Flask, request
+import json
 
 # Важные переменные
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
@@ -140,7 +141,7 @@ def twitch_test_hook_alert():
 
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
-    rq = request.get_json()
+    rq = json.loads(request.get_json())
     confirmation_rq = {'type': 'confirmation', 'group_id': 185560511, 'secret': 'MySeecretKeyIsNotForYou21'}
     if rq == confirmation_rq:
         if request.method == 'POST':
@@ -152,12 +153,8 @@ def vk_get_wall():
     else:
         if rq.get('secret') == 'MySeecretKeyIsNotForYou21':
             if request.method == 'POST':
-                post_obj = rq.get("object")
-                post_text = post_obj.get("text")
-                post_attachments = rq.get('attachments')
-                print(type(post_obj))
-                print(post_text)
-                print(post_attachments)
+                print(rq)
+                print(type(rq))
                 return "Ok", 200
             elif request.method == 'GET':
                 return "NotSupported", 404
