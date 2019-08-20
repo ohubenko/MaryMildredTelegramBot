@@ -153,8 +153,7 @@ def vk_get_wall():
     else:
         if rq.get('secret') == 'MySeecretKeyIsNotForYou21':
             if request.method == 'POST':
-                print(rq)
-                print(type(rq))
+                post_obj = rq['object']
                 return "Ok", 200
             elif request.method == 'GET':
                 return "NotSupported", 404
