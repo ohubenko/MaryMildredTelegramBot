@@ -155,7 +155,7 @@ def vk_get_wall():
                 post_obj = rq.get("object")
                 post_text = post_obj.get("text")
                 post_attachments = rq.get("attachments")
-                print(type(post_attachments))
+                print(post_attachments)
                 return "Ok", 200
             elif request.method == 'GET':
                 return "NotSupported", 404
