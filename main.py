@@ -3,7 +3,6 @@ import os
 import pymongo
 import telebot
 from flask import Flask, request
-import json
 
 # Важные переменные
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
@@ -154,9 +153,19 @@ def vk_get_wall():
         if rq.get('secret') == 'MySeecretKeyIsNotForYou21':
             if request.method == 'POST':
                 post_obj = rq['object']
-                post_attachments = post_obj['attachments'][0]
-                post_type = post_attachments.get('type')
-                print(post_type)
+                post_attachments = post_obj.get('attachments')
+                if post_attachments is None:
+                    print("OnlyText")
+                else:
+                    post_attachments = post_attachments[0]
+                    post_type = post_attachments.get('type')
+                    if post_type == 'photo':
+                        print("photo")
+                    elif post_type == 'link':
+                        print("Link")
+                    else:
+                        print("not support")
+
                 return "Ok", 200
             elif request.method == 'GET':
                 return "NotSupported", 404
