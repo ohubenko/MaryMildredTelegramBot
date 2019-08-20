@@ -145,8 +145,6 @@ def vk_get_wall():
     if rq == confirmation_rq:
         if request.method == 'POST':
             return "26d6836b", 200
-        elif request.method == 'GET':
-            return 'NotSupported', 200
         else:
             return "NotSupported", 404
     else:
@@ -155,17 +153,16 @@ def vk_get_wall():
                 post_obj = rq['object']
                 post_attachments = post_obj.get('attachments')
                 if post_attachments is None:
-                    print("OnlyText")
+                    print(post_obj.get('text'))
                 else:
                     post_attachments = post_attachments[0]
-                    post_type = post_attachments.get('type')
-                    if post_type == 'photo':
-                        print("photo")
-                    elif post_type == 'link':
+                    if post_attachments.get('type') == 'photo':
+                        post = post_attachments['photo']['sizes']
+                        print(post)
+                    elif post_attachments.get('type') == 'link':
                         print("Link")
                     else:
                         print("not support")
-
                 return "Ok", 200
             elif request.method == 'GET':
                 return "NotSupported", 404
