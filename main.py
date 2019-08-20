@@ -157,7 +157,7 @@ def vk_get_wall():
                 else:
                     post_attachments = post_attachments[0]
                     if post_attachments.get('type') == 'photo':
-                        post = post_attachments['photo']['sizes']
+                        post = post_attachments['photo']['sizes'][0]
                         print(post)
                     elif post_attachments.get('type') == 'link':
                         print("Link")
