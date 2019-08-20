@@ -155,6 +155,8 @@ def vk_get_wall():
                 post_obj = rq.get("object")
                 post_text = post_obj.get("text")
                 post_attachments = rq.get("attachments")
+                print(post_obj)
+                print(post_text)
                 print(post_attachments)
                 return "Ok", 200
             elif request.method == 'GET':
