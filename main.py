@@ -156,15 +156,12 @@ def vk_get_wall():
                 post_attachments = post_obj.get('attachments')
                 post_repost = post_obj.get('copy_history')
                 bot.send_message(admin_id, "В группе новый пост:")
-                tekst = str(post_obj.get('text'))
-                print('\n')
-                print(tekst)
-                print('\n')
-                bot.send_message(admin_id, "Text")
+                post_text = str(post_obj.get('text'))
+                print(type(post_text))
+                bot.send_message(admin_id, post_text)
                 # for user in records.find({}, {"_id": 1}):
                 #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
                 #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
-                print('OK')
                 if post_attachments is None :
                     print("Haven't attachment")
                     if post_repost is not None:
@@ -172,18 +169,14 @@ def vk_get_wall():
                     # for user in records.find({}, {"_id": 1}):
                     #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
                 else:
-                    print('OK')
                     for post_attachment in post_attachments:
-                        print('OK')
                         attachment_type = post_attachment.get('type')
                         if attachment_type == 'photo':
-                            print('OK')
                             post = post_attachment['photo']['sizes'][-1]
                             bot.send_photo(admin_id, post.get('url'))
                             # for user in records.find({}, {"_id": 1}):
                             #     bot.send_photo(int(user.get("_id"), post.get('url')))
                         elif attachment_type == 'link':
-                            print('OK')
                             post = post_attachment['link']['url']
                             bot.send_message(admin_id, post)
                             # for user in records.find({}, {"_id": 1}):
