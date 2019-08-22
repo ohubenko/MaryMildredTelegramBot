@@ -141,7 +141,7 @@ def twitch_test_hook_alert():
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
     rq = request.get_json()
-    if rq.method == 'GET':
+    if request.method == 'GET':
         return "Not Supported", 404
     confirmation_rq = {'type': 'confirmation', 'group_id': 118525812, 'secret': 'MySeecretKeyIsNotForYou21'}
     if rq == confirmation_rq:
