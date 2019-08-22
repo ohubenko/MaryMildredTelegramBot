@@ -154,16 +154,20 @@ def vk_get_wall():
             if request.method == 'POST':
                 post_obj = rq['object']
                 post_attachments = post_obj.get('attachments')
-                repost = post_obj.get('copy_history')
+                post_repost = post_obj.get('copy_history')
                 bot.send_message(admin_id, "В группе новый пост:")
-                bot.send_message(admin_id, str(post_obj.get('text')))
+                tekst = str(post_obj.get('text'))
+                print('\n')
+                print(tekst)
+                print('\n')
+                bot.send_message(admin_id, "Text")
                 # for user in records.find({}, {"_id": 1}):
                 #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
                 #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
                 print('OK')
                 if post_attachments is None :
                     print("Haven't attachment")
-                    if repost is not None:
+                    if post_repost is not None:
                         print("Tyt bil repost")
                     # for user in records.find({}, {"_id": 1}):
                     #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
