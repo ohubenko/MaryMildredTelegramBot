@@ -157,8 +157,10 @@ def vk_get_wall():
                 post_repost = post_obj.get('copy_history')
                 bot.send_message(admin_id, "В группе новый пост:")
                 post_text = str(post_obj.get('text'))
-                print(type(post_text))
-                bot.send_message(admin_id, post_text)
+                if post_text == "":
+                    print("pizdec")
+                else:
+                    bot.send_message(admin_id, post_text)
                 # for user in records.find({}, {"_id": 1}):
                 #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
                 #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
