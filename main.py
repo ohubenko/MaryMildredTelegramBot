@@ -141,10 +141,12 @@ def twitch_test_hook_alert():
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
     rq = request.get_json()
-    confirmation_rq = {'type': 'confirmation', 'group_id': 185560511, 'secret': 'MySeecretKeyIsNotForYou21'}
+    if rq.method == 'GET':
+        return "Not Supported", 404
+    confirmation_rq = {'type': 'confirmation', 'group_id': 118525812, 'secret': 'MySeecretKeyIsNotForYou21'}
     if rq == confirmation_rq:
         if request.method == 'POST':
-            return "26d6836b", 200
+            return "2cd011e5", 200
         else:
             return "NotSupported", 404
     else:
@@ -153,20 +155,32 @@ def vk_get_wall():
                 post_obj = rq['object']
                 post_attachments = post_obj.get('attachments')
                 if post_attachments is None:
-                    print(post_obj.get('text'))
+                    print()
+                    # for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
+                    #     # потом из колекции мы берём значение ключа
+                    #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                    #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
                 else:
                     post_attachments = post_attachments[0]
                     if post_attachments.get('type') == 'photo':
                         post = post_attachments['photo']['sizes'][-1]
-
-                        bot.send_photo(admin_id, post.get('url'))
+                        # for user in records.find({}, {"_id": 1}):
+                        #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                        #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
+                        #     bot.send_photo(int(user.get("_id"), post.get('url')))
                     elif post_attachments.get('type') == 'link':
-                        print("Link")
+                        post = post_attachments['link']['url']
+                        # for user in records.find({}, {"_id": 1}):
+                        #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                        #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
+                        #     bot.send_photo(int(user.get("_id"), post))
                     else:
-                        print("not support")
+                        print('\n')
+                        # for user in records.find({}, {"_id": 1}):
+                        #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                        #     bot.send_message(int(user.get("_id")), post_obj.get('text') +
+                        #                      "\n К сожалению там есть вложение что не поддерживаеться")
                 return "Ok", 200
-            elif request.method == 'GET':
-                return "NotSupported", 404
             else:
                 return "NotSupported", 404
         else:
