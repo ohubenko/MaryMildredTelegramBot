@@ -155,31 +155,32 @@ def vk_get_wall():
                 post_obj = rq['object']
                 post_attachments = post_obj.get('attachments')
                 if post_attachments is None:
-                    print()
+                    print("Haven't attachment")
                     # for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
                     #     # потом из колекции мы берём значение ключа
                     #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
                     #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
                 else:
-                    post_attachments = post_attachments[0]
-                    if post_attachments.get('type') == 'photo':
-                        post = post_attachments['photo']['sizes'][-1]
-                        # for user in records.find({}, {"_id": 1}):
-                        #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
-                        #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
-                        #     bot.send_photo(int(user.get("_id"), post.get('url')))
-                    elif post_attachments.get('type') == 'link':
-                        post = post_attachments['link']['url']
-                        # for user in records.find({}, {"_id": 1}):
-                        #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
-                        #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
-                        #     bot.send_photo(int(user.get("_id"), post))
-                    else:
-                        print('\n')
-                        # for user in records.find({}, {"_id": 1}):
-                        #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
-                        #     bot.send_message(int(user.get("_id")), post_obj.get('text') +
-                        #                      "\n К сожалению там есть вложение что не поддерживаеться")
+                    for post_attachment in post_attachments:
+                        print("Attachment\n")
+                        if post_attachment.get('type') == 'photo':
+                            post = post_attachment['photo']['sizes'][-1]
+                            # for user in records.find({}, {"_id": 1}):
+                            #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                            #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
+                            #     bot.send_photo(int(user.get("_id"), post.get('url')))
+                        elif post_attachment.get('type') == 'link':
+                            post = post_attachment['link']['url']
+                            # for user in records.find({}, {"_id": 1}):
+                            #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                            #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
+                            #     bot.send_photo(int(user.get("_id"), post))
+                        else:
+                            print('\n')
+                            # for user in records.find({}, {"_id": 1}):
+                            #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                            #     bot.send_message(int(user.get("_id")), post_obj.get('text') +
+                            #                      "\n К сожалению там есть вложение что не поддерживаеться")
                 return "Ok", 200
             else:
                 return "NotSupported", 404
