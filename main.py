@@ -160,6 +160,7 @@ def vk_get_wall():
                 # for user in records.find({}, {"_id": 1}):
                 #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
                 #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
+                print('OK')
                 if post_attachments is None :
                     print("Haven't attachment")
                     if repost is not None:
@@ -167,14 +168,18 @@ def vk_get_wall():
                     # for user in records.find({}, {"_id": 1}):
                     #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
                 else:
+                    print('OK')
                     for post_attachment in post_attachments:
+                        print('OK')
                         attachment_type = post_attachment.get('type')
                         if attachment_type == 'photo':
+                            print('OK')
                             post = post_attachment['photo']['sizes'][-1]
                             bot.send_photo(admin_id, post.get('url'))
                             # for user in records.find({}, {"_id": 1}):
                             #     bot.send_photo(int(user.get("_id"), post.get('url')))
                         elif attachment_type == 'link':
+                            print('OK')
                             post = post_attachment['link']['url']
                             bot.send_message(admin_id, post)
                             # for user in records.find({}, {"_id": 1}):
