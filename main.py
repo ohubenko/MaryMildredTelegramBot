@@ -155,39 +155,39 @@ def vk_get_wall():
                 post_obj = rq['object']
                 post_attachments = post_obj.get('attachments')
                 post_repost = post_obj.get('copy_history')
-                bot.send_message(admin_id, "В группе новый пост:")
                 post_text = str(post_obj.get('text'))
+
                 if post_text == "":
                     print("pizdec")
                 else:
                     bot.send_message(admin_id, post_text)
-                # for user in records.find({}, {"_id": 1}):
-                #     bot.send_message(int(user.get("_id")), "В группе новый пост:")
-                #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
-                if post_attachments is None :
+
+                for user in records.find({}, {"_id": 1}):
+                    bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                    if post_text == "":
+                        print("pizdec")
+                    else:
+                        bot.send_message(int(user.get("_id")), post_text)
+
+                if post_attachments is None:
                     print("Haven't attachment")
                     if post_repost is not None:
                         print("Tyt bil repost")
-                    # for user in records.find({}, {"_id": 1}):
-                    #     bot.send_message(int(user.get("_id")), post_obj.get('text'))
                 else:
                     for post_attachment in post_attachments:
                         attachment_type = post_attachment.get('type')
                         if attachment_type == 'photo':
                             post = post_attachment['photo']['sizes'][-1]
-                            bot.send_photo(admin_id, post.get('url'))
-                            # for user in records.find({}, {"_id": 1}):
-                            #     bot.send_photo(int(user.get("_id"), post.get('url')))
+                            for user in records.find({}, {"_id": 1}):
+                                bot.send_photo(int(user.get("_id")), post.get('url'))
                         elif attachment_type == 'link':
                             post = post_attachment['link']['url']
-                            bot.send_message(admin_id, post)
-                            # for user in records.find({}, {"_id": 1}):
-                            #     bot.send_message(int(user.get("_id"), post))
+                            for user in records.find({}, {"_id": 1}):
+                                bot.send_message(int(user.get("_id")), post)
                         else:
-                            print('\n')
-                            # for user in records.find({}, {"_id": 1}):
-                            #     bot.send_message(int(user.get("_id")),
-                            #     "\n К сожалению там есть вложение что не поддерживаеться")
+                            for user in records.find({}, {"_id": 1}):
+                                bot.send_message(int(user.get("_id")),
+                                                 "\n К сожалению там есть вложение что не поддерживаеться")
                 return "Ok", 200
             else:
                 return "NotSupported", 404
