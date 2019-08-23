@@ -9,7 +9,7 @@ TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
 twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
 streamer_url = "https://www.twitch.tv/mary_mildred"
 admin_id = 548488172
-group_id = -118525812
+# group_id = -118525812
 twitch_secret = "8jpst72r4dcubejbstj5x6axqcdar0"
 # Создание бота и приложения Flask
 bot = telebot.TeleBot(TOKEN)
@@ -152,47 +152,62 @@ def vk_get_wall():
     else:
         if rq.get('secret') == 'MySeecretKeyIsNotForYou21':
             if request.method == 'POST':
-                post_obj = rq['object']
-                post_attachments = post_obj.get('attachments')
-                post_repost = post_obj.get('copy_history')
-                post_text = str(post_obj.get('text'))
+                post_obj = rq['object']  # Берем объект поста
+                post_attachments = post_obj.get('attachments')  # Забираем с него вложения
+                post_repost = post_obj.get('copy_history')  # Забираем с него репост
+                post_text = str(post_obj.get('text'))  # Забираем текст поста
 
-                if post_text == "":
-                    print("pizdec")
-                else:
-                    bot.send_message(admin_id, post_text)
-
-                for user in records.find({}, {"_id": 1}):
+                for user in records.find({}, {"_id": 1}):  # Отправляем всем пользователям оповещение о новом посте
                     bot.send_message(int(user.get("_id")), "В группе новый пост:")
-                    if post_text == "":
-                        print("pizdec")
-                    else:
+                # Смотрим есть ли в посте текст,ткк без этого бот улетает
+                if post_text == "":
+                    print("Post haven't text")
+                else:
+                    # Отправляем текст
+                    for user in records.find({}, {"_id": 1}):
                         bot.send_message(int(user.get("_id")), post_text)
-
+                # Обрабатываем тип поста и вложения (пост/репост)
                 if post_attachments is None:
                     print("Haven't attachment")
                     if post_repost is not None:
                         print("Tyt bil repost")
+                        for history in post_repost:
+                            h_attachments = history.get('attachments')
+                            vk_attachemnts(h_attachments)
                 else:
-                    for post_attachment in post_attachments:
-                        attachment_type = post_attachment.get('type')
-                        if attachment_type == 'photo':
-                            post = post_attachment['photo']['sizes'][-1]
-                            for user in records.find({}, {"_id": 1}):
-                                bot.send_photo(int(user.get("_id")), post.get('url'))
-                        elif attachment_type == 'link':
-                            post = post_attachment['link']['url']
-                            for user in records.find({}, {"_id": 1}):
-                                bot.send_message(int(user.get("_id")), post)
-                        else:
-                            for user in records.find({}, {"_id": 1}):
-                                bot.send_message(int(user.get("_id")),
-                                                 "\n К сожалению там есть вложение что не поддерживаеться")
+                    vk_attachemnts(post_attachments)
                 return "Ok", 200
             else:
                 return "NotSupported", 404
         else:
             return 'Forbidden', 403
+
+
+def vk_attachemnts(attachments):
+    """
+    На входе получает словарь(список) вложений
+    Для каждого вложения определяет тип
+    Согласно типу обрабатывает его
+    Бот отправляет вложение
+    :param attachments:
+    :return:
+    """
+    for attachment in attachments:
+        # Определяем тип вложения
+        attachment_type = attachment.get('type')
+        # Обрабатываем вложение
+        if attachment_type == 'photo':
+            post = attachment['photo']['sizes'][-1]
+            for user in records.find({}, {"_id": 1}):
+                bot.send_photo(int(user.get("_id")), post.get('url'))
+        elif attachment_type == 'link':
+            post = attachment['link']['url']
+            for user in records.find({}, {"_id": 1}):
+                bot.send_message(int(user.get("_id")), post)
+        else:
+            for user in records.find({}, {"_id": 1}):
+                bot.send_message(int(user.get("_id")),
+                                 "\n К сожалению там есть вложение что не поддерживаеться")
 
 
 @server.route('/')
