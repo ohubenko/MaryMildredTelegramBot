@@ -27,6 +27,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -161,7 +162,10 @@
       <workItem from="1566282621796" duration="17573000" />
       <workItem from="1566454928204" duration="7333000" />
       <workItem from="1566549621449" duration="50000" />
-      <workItem from="1566549712617" duration="3167000" />
+      <workItem from="1566549712617" duration="5196000" />
+      <workItem from="1566983902596" duration="566000" />
+      <workItem from="1567147107491" duration="15000" />
+      <workItem from="1568280316428" duration="1783000" />
     </task>
     <task id="LOCAL-00001" summary="Fix msg">
       <created>1565208928125</created>

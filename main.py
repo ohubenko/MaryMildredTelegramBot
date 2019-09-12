@@ -104,8 +104,11 @@ def twitch_hook_alert():
         else:
             for user in records.find({}, {"_id": 1}):  # Выборка всех пользователей с выводом только chat_id
                 # потом из колекции мы берём значение ключа
-                bot.send_message(int(user.get("_id")), "Ау !!! Тут стрим начался!!!!")
-                bot.send_message(int(user.get("_id")), streamer_url)
+                try:
+                    bot.send_message(int(user.get("_id")), "Ау !!! Тут стрим начался!!!!")
+                    bot.send_message(int(user.get("_id")), streamer_url)
+                except:
+                    bot.send_message(admin_id, "Проблемы с отправкой в методе twitch alert")
         return "Done", 200
     else:
         return "Nope", 404
@@ -158,7 +161,10 @@ def vk_get_wall():
                 post_text = str(post_obj.get('text'))  # Забираем текст поста
 
                 for user in records.find({}, {"_id": 1}):  # Отправляем всем пользователям оповещение о новом посте
-                    bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                    try:
+                        bot.send_message(int(user.get("_id")), "В группе новый пост:")
+                    except:
+                        bot.send_message(admin_id, "Проблемы с отправкой в методе vk get wall")
                 # Смотрим есть ли в посте текст,ткк без этого бот улетает
                 if post_text == "":
                     print("Post haven't text")
@@ -196,18 +202,21 @@ def vk_attachemnts(attachments):
         # Определяем тип вложения
         attachment_type = attachment.get('type')
         # Обрабатываем вложение
-        if attachment_type == 'photo':
-            post = attachment['photo']['sizes'][-1]
-            for user in records.find({}, {"_id": 1}):
-                bot.send_photo(int(user.get("_id")), post.get('url'))
-        elif attachment_type == 'link':
-            post = attachment['link']['url']
-            for user in records.find({}, {"_id": 1}):
-                bot.send_message(int(user.get("_id")), post)
-        else:
-            for user in records.find({}, {"_id": 1}):
-                bot.send_message(int(user.get("_id")),
-                                 "\n К сожалению там есть вложение что не поддерживаеться")
+        try:
+            if attachment_type == 'photo':
+                post = attachment['photo']['sizes'][-1]
+                for user in records.find({}, {"_id": 1}):
+                    bot.send_photo(int(user.get("_id")), post.get('url'))
+            elif attachment_type == 'link':
+                post = attachment['link']['url']
+                for user in records.find({}, {"_id": 1}):
+                    bot.send_message(int(user.get("_id")), post)
+            else:
+                for user in records.find({}, {"_id": 1}):
+                    bot.send_message(int(user.get("_id")),
+                                     "\n К сожалению там есть вложение что не поддерживаеться")
+        except:
+            bot.send_message(admin_id, "Пиздец, не отправляет вложения")
 
 
 @server.route('/')
