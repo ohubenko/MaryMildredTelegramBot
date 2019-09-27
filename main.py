@@ -1,6 +1,7 @@
 import os
 
 import pymongo
+import requests as rq
 import telebot
 from flask import Flask, request
 
@@ -80,7 +81,7 @@ def get_message():
     return "!", 200
 
 
-# TODO: Добавить проверку на валидность запроса, проверка на то что запрос из Twitch или нет
+# TODO: Добавить проверку на валидность запроса, проверка на то что запрос из Twitch или нет, добавить авто подписку
 @server.route('/' + 'mildredStatus', methods=['GET', 'POST'])
 def twitch_hook_alert():
     """
@@ -219,6 +220,36 @@ def vk_attachemnts(attachments):
             bot.send_message(admin_id, "Пиздец, не отправляет вложения")
 
 
+def twitch_hook_set():
+    '''
+    Установка хука на стрим
+    :return: Код, установленно или нет
+    '''
+    # Куда Twitch будет стучать
+    # Подписка/отписка от ивента
+    # Ивент, передаю сразу параметром id пользователя
+    # Время на сколько будет действовать отслежевание подписки, 864000 -макс
+    headers = {"Authorization": "Bearer %s" % twitch_bearer}
+    # Заголовок с авторизацией
+    payload = {'hub.callback': 'https://marymildred-bot.herokuapp.com/mildredStatus',
+               'hub.mode': 'subscribe',
+               'hub.topic': 'https://api.twitch.tv/helix/streams?user_id=247494838',
+               'hub.lease_seconds': 864000}
+    r = rq.post('https://api.twitch.tv/helix/webhooks/hub', data=payload, headers=headers)
+    if r.status_code == 200:
+        bot.send_message(admin_id, "Подписка продленна, автоматически")
+    else:
+        bot.send_message(admin_id, "Что-то пошло не так")
+
+
+def twitch_hook_check():
+    response = rq.get('https://api.twitch.tv/helix/webhooks/subscriptions',
+                      headers={"Authorization": "Bearer %s" % twitch_bearer})
+    response_json = response.json()
+    date = response_json.get('data')[0].get('expires_at')
+    return date
+
+
 @server.route('/')
 def webhook():
     """
@@ -227,6 +258,7 @@ def webhook():
     """
     bot.remove_webhook()
     bot.set_webhook(url='https://marymildred-bot.herokuapp.com/' + TOKEN)
+    print(twitch_hook_check())
     return "Bot has been work!", 200
 
 
