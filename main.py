@@ -69,9 +69,6 @@ def echo_message(message):
     """
     bot.reply_to(message,
                  "Извини, я ище не умею отвечать на обычные сообщения. Но скоро я смогу с тобой полноценно общаться")
-    print('\n')
-    print(twitch_hook_check())
-    print('\n')
 
 
 @server.route('/' + TOKEN, methods=['POST'])
