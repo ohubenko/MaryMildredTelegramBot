@@ -69,6 +69,9 @@ def echo_message(message):
     """
     bot.reply_to(message,
                  "Извини, я ище не умею отвечать на обычные сообщения. Но скоро я смогу с тобой полноценно общаться")
+    print('\n')
+    print(twitch_hook_check())
+    print('\n')
 
 
 @server.route('/' + TOKEN, methods=['POST'])
@@ -258,7 +261,6 @@ def webhook():
     """
     bot.remove_webhook()
     bot.set_webhook(url='https://marymildred-bot.herokuapp.com/' + TOKEN)
-    print(twitch_hook_check())
     return "Bot has been work!", 200
 
 
