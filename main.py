@@ -79,7 +79,6 @@ def get_message():
     :return:
     """
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-    update_hook()
     return "!", 200
 
 
