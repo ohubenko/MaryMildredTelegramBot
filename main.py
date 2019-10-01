@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 import pymongo
 import requests as rq
@@ -58,12 +59,6 @@ def command_stop(message):
     """
     records.find_one_and_delete({"_id": message.chat.id})
     bot.reply_to(message, "Ты больше не будешь получать уведомления. Надеюсь ты вернешься.")
-
-
-@bot.message_handler(commands=['CheckHookStatus'])
-def command_hook(message):
-    date = twitch_hook_check()
-    bot.send_message(admin_id, 'Время окончания webhook:%s'%date)
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
@@ -256,6 +251,12 @@ def twitch_hook_check():
     return date
 
 
+@bot.message_handler(commands=['check'])
+def update_hook():
+    date = datetime.strptime(str(twitch_hook_check()), "%d/%m/%Y")
+    bot.send_message(admin_id, str(date))
+
+
 @server.route('/')
 def webhook():
     """
@@ -264,7 +265,6 @@ def webhook():
     """
     bot.remove_webhook()
     bot.set_webhook(url='https://marymildred-bot.herokuapp.com/' + TOKEN)
-    date = twitch_hook_check()
     return "Bot has been work!", 200
 
 
