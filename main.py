@@ -79,6 +79,7 @@ def get_message():
     :return:
     """
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    update_hook()
     return "!", 200
 
 
@@ -251,7 +252,6 @@ def twitch_hook_check():
     return date
 
 
-@bot.message_handler(commands=['check'])
 def update_hook():
     date = datetime.strptime(str(twitch_hook_check()), "%d/%m/%Y")
     bot.send_message(admin_id, str(date))
