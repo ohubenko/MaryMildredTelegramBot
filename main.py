@@ -4,6 +4,7 @@ import pymongo
 import requests as rq
 import telebot
 from flask import Flask, request
+import datetime
 
 # Важные переменные
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
@@ -257,7 +258,7 @@ def twitch_hook_check():
 
 def update_hook():
     date_json = twitch_hook_check()
-    date = date_json.datetime.strptime(date_json, '%Y-%m-%dT%H:%M:%S.%fZ')
+    date = datetime.datetime.strptime(date_json, '%Y-%m-%dT%H:%M:%S.%fZ')
     print(date)
 
 
