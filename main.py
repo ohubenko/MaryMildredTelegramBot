@@ -61,7 +61,7 @@ def command_stop(message):
 
 
 @bot.message_handler(commands=['check'])
-def check_last_date():
+def check_last_date(message):
     update_hook()
 
 
