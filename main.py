@@ -257,7 +257,7 @@ def twitch_hook_check():
 
 def update_hook():
     date_json = twitch_hook_check()
-    date = date_json.datetime.strtime(date_json, '%Y-%m-%dT%H:%M:%S.%fZ')
+    date = date_json.datetime.strptime(date_json, '%Y-%m-%dT%H:%M:%S.%fZ')
     print(date)
 
 
