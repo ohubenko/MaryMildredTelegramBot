@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 import pymongo
 import requests as rq
@@ -59,6 +58,11 @@ def command_stop(message):
     """
     records.find_one_and_delete({"_id": message.chat.id})
     bot.reply_to(message, "Ты больше не будешь получать уведомления. Надеюсь ты вернешься.")
+
+
+@bot.message_handler(commands=['check'])
+def check_last_date():
+    update_hook()
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
@@ -253,12 +257,8 @@ def twitch_hook_check():
 
 def update_hook():
     date_json = twitch_hook_check()
-    i = 0
-    date_str = ""
-    while i < 10:
-        date_str += date_json[i]
-    date = datetime.strptime(date_str, "%d/%m/%Y")
-    bot.send_message(admin_id, str(date))
+    date = date_json.datetime.strtime(date_json, '%Y-%m-%dT%H:%M:%S.%fZ')
+    print(date)
 
 
 @server.route('/')
