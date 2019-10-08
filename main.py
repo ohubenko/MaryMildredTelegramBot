@@ -255,10 +255,10 @@ def twitch_hook_check():
                       headers={"Authorization": "Bearer %s" % twitch_bearer})
     response_json = response.json()
     date = response_json.get('data')[0].get('expires_at')
-    if date is not None:
-        return date
-    else:
+    if date is None:
         twitch_hook_set()
+    else:
+        return date
 
 
 @server.route('/')
