@@ -152,19 +152,19 @@ def twitch_test_hook_alert():
 
 @server.route('/VkUpdate', methods=['GET', 'POST'])
 def vk_get_wall():
-    rq = request.get_json()
+    reqs = request.get_json()
     if request.method == 'GET':
         return "Not Supported", 404
     confirmation_rq = {'type': 'confirmation', 'group_id': 118525812, 'secret': 'MySeecretKeyIsNotForYou21'}
-    if rq == confirmation_rq:
+    if reqs == confirmation_rq:
         if request.method == 'POST':
             return "2cd011e5", 200
         else:
             return "NotSupported", 404
     else:
-        if rq.get('secret') == 'MySeecretKeyIsNotForYou21':
+        if reqs.get('secret') == 'MySeecretKeyIsNotForYou21':
             if request.method == 'POST':
-                post_obj = rq['object']  # Берем объект поста
+                post_obj = reqs['object']  # Берем объект поста
                 post_attachments = post_obj.get('attachments')  # Забираем с него вложения
                 post_repost = post_obj.get('copy_history')  # Забираем с него репост
                 post_text = str(post_obj.get('text'))  # Забираем текст поста
