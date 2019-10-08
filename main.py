@@ -254,6 +254,7 @@ def twitch_hook_check():
     response = rq.get('https://api.twitch.tv/helix/webhooks/subscriptions',
                       headers={"Authorization": "Bearer %s" % twitch_bearer})
     response_json = response.json()
+    print(response_json)
     if response_json == "":
         twitch_hook_set()
     else:
