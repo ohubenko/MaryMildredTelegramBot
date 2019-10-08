@@ -1,10 +1,10 @@
+import datetime
 import os
 
 import pymongo
 import requests as rq
 import telebot
 from flask import Flask, request
-import datetime
 
 # Важные переменные
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
@@ -255,8 +255,10 @@ def twitch_hook_check():
                       headers={"Authorization": "Bearer %s" % twitch_bearer})
     response_json = response.json()
     date = response_json.get('data')[0].get('expires_at')
-    return date
-
+    if date is not None:
+        return date
+    else:
+        twitch_hook_set()
 
 
 @server.route('/')
