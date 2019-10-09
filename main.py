@@ -8,7 +8,7 @@ from flask import Flask, request
 
 # TODO: Перенести переменные в окружение(Heroku)
 # Важные переменные
-TOKEN = str(os.getenv('TOKEN'))
+TOKEN = str(os.getenv('TOKKEN'))
 twitch_bearer = str(os.getenv('twitch_bearer'))
 streamer_url = str(os.getenv('streamer_url'))
 client_id = str(os.getenv('client_id'))
@@ -283,7 +283,6 @@ def webhook():
     bot.set_webhook(url='https://marymildred-bot.herokuapp.com/' + TOKEN)
     return "Bot has been work!", 200
 
-print(TOKEN)
 
 # Запуск сервера
 if __name__ == "__main__":
