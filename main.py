@@ -6,10 +6,13 @@ import requests as rq
 import telebot
 from flask import Flask, request
 
+# TODO: Перенести переменные в окружение(Heroku)
 # Важные переменные
 TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
-twitch_bearer = 'xsb1hqrxomj5y5mf01gq620gjp6uvo'
+twitch_bearer = 'vzm77eoeg4dn0vix63xv2cdyc06l3j'
 streamer_url = "https://www.twitch.tv/mary_mildred"
+client_id = "p0fcxl37u48iw46a0aaxlk6mhzppxy"
+url_update_token = "https://id.twitch.tv/oauth2/token"
 admin_id = 548488172
 # group_id = -118525812
 twitch_secret = "8jpst72r4dcubejbstj5x6axqcdar0"
@@ -257,6 +260,14 @@ def twitch_hook_check():
     print(response_json)
     if response_json == "":
         twitch_hook_set()
+    elif response.status_code == 401:
+        # params = {'client_id': 'p0fcxl37u48iw46a0aaxlk6mhzppxy',
+        #           'client_secret': '8jpst72r4dcubejbstj5x6axqcdar0',
+        #           'grant_type': 'client_credentials'}
+        # request_update_token = rq.post(url_update_token, data=params)
+        # if request_update_token.status_code == 200:
+        #     print(request_update_token.json())
+        bot.send_message(admin_id, "Token has been update\nNew tokken:")
     else:
         date = response_json.get('data')[0].get('expires_at')
         return date
