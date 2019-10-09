@@ -24,7 +24,7 @@ client = pymongo.MongoClient(str(os.getenv('mongodb_url')))
 db = client.get_database(str(os.getenv('db_name')))
 records = db["users"]
 
-print(TOKEN)
+
 # Body
 @bot.message_handler(commands=['start'])
 def command_start(message):
@@ -283,6 +283,7 @@ def webhook():
     bot.set_webhook(url='https://marymildred-bot.herokuapp.com/' + TOKEN)
     return "Bot has been work!", 200
 
+print(TOKEN)
 
 # Запуск сервера
 if __name__ == "__main__":
