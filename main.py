@@ -8,20 +8,20 @@ from flask import Flask, request
 
 # TODO: Перенести переменные в окружение(Heroku)
 # Важные переменные
-TOKEN = "938388032:AAHeRssyrFPieF6WRYCkLz827NA6Paslj_s"
-twitch_bearer = 'vzm77eoeg4dn0vix63xv2cdyc06l3j'
-streamer_url = "https://www.twitch.tv/mary_mildred"
-client_id = "p0fcxl37u48iw46a0aaxlk6mhzppxy"
-url_update_token = "https://id.twitch.tv/oauth2/token"
-admin_id = 548488172
+TOKEN = os.getenv('TOKEN')
+twitch_bearer = os.getenv('twitch_bearer')
+streamer_url = os.getenv('streamer_url')
+client_id = os.getenv('client_id')
+url_update_token = os.getenv('url_update_token')
+admin_id = int(os.getenv('admin_id'))
 # group_id = -118525812
-twitch_secret = "8jpst72r4dcubejbstj5x6axqcdar0"
+twitch_secret = os.getenv('twitch_secret')
 # Создание бота и приложения Flask
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 # MongoDB_MLab
-client = pymongo.MongoClient("mongodb://MildredBot:SaMp4721@ds261377.mlab.com:61377/heroku_03snt0h5")
-db = client.get_database('heroku_03snt0h5')
+client = pymongo.MongoClient(os.getenv('mongodb_url'))
+db = client.get_database(os.getenv('db_name'))
 records = db["users"]
 
 
