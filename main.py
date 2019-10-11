@@ -64,10 +64,15 @@ def command_stop(message):
 
 
 @bot.message_handler(commands=['check'])
-def check_last_date(message):
+def command_check_last_date(message):
     date_json = twitch_hook_check()
     date = datetime.datetime.strptime(str(date_json), '%Y-%m-%dT%H:%M:%S.%fZ')
     bot.send_message(admin_id, str(date))
+
+
+@bot.message_handler(commands=['updatetoken'])
+def command_update_token():
+    update_token()
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
@@ -252,6 +257,18 @@ def twitch_hook_set():
         bot.send_message(admin_id, "Что-то пошло не так")
 
 
+def update_token():
+    params = {'client_id': client_id,
+              'client_secret': twitch_secret,
+              'grant_type': 'client_credentials'}
+    request_update_token = rq.post(url_update_token, data=params)
+    if request_update_token.status_code == 200:
+        print(request_update_token.json())
+        bot.send_message(admin_id, "Token has been update\nNew token: %s" % request_update_token.text)
+    else:
+        bot.send_message(admin_id, "Не удалось обновить токен доступа twitch")
+
+
 def twitch_hook_check():
     response = rq.get('https://api.twitch.tv/helix/webhooks/subscriptions',
                       headers={"Authorization": "Bearer %s" % twitch_bearer})
@@ -260,15 +277,7 @@ def twitch_hook_check():
     if response_json == "":
         twitch_hook_set()
     elif response.status_code == 401:
-        params = {'client_id': 'p0fcxl37u48iw46a0aaxlk6mhzppxy',
-                  'client_secret': '8jpst72r4dcubejbstj5x6axqcdar0',
-                  'grant_type': 'client_credentials'}
-        request_update_token = rq.post(url_update_token, data=params)
-        if request_update_token.status_code == 200:
-            print(request_update_token.json())
-            bot.send_message(admin_id, "Token has been update\nNew token: %s" % request_update_token.text)
-        else:
-            bot.send_message(admin_id, "Не удалось обновить токен доступа twitch")
+        update_token()
     else:
         date = response_json.get('data')[0].get('expires_at')
         return date
