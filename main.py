@@ -266,7 +266,9 @@ def twitch_hook_check():
         request_update_token = rq.post(url_update_token, data=params)
         if request_update_token.status_code == 200:
             print(request_update_token.json())
-        bot.send_message(admin_id, "Token has been update\nNew token: %s" % request_update_token.text)
+            bot.send_message(admin_id, "Token has been update\nNew token: %s" % request_update_token.text)
+        else:
+            bot.send_message(admin_id, "Не удалось обновить токен доступа twitch")
     else:
         date = response_json.get('data')[0].get('expires_at')
         return date

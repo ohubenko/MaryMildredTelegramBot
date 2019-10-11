@@ -2,3 +2,4 @@ telebot
 pyTelegramBotAPI
 Flask
 pymongo
+requests
