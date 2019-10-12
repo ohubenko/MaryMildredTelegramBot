@@ -19,7 +19,8 @@ twitch_secret = str(os.getenv('twitch_secret'))
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 # MongoDB_MLab
-client = pymongo.MongoClient(str(os.getenv('mongodb_url')))
+mongodb_url = str(os.getenv('mongodb_url'))
+client = pymongo.MongoClient(mongodb_url)
 db = client.get_database(str(os.getenv('db_name')))
 records = db["users"]
 
