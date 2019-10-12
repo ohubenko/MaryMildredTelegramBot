@@ -20,7 +20,7 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 # MongoDB_MLab
 # mongodb_url = str(os.getenv('mongodb_url'))
-mongodb_url = "mongodb://MildredBot:SaMp4721@ds261377.mlab.com:61377/heroku_03snt0h5"
+mongodb_url = "mongodb://MildredBot:SaMp4721@ds261377.mlab.com:61377/heroku_03snt0h5?retryWrites=true"
 client = pymongo.MongoClient(mongodb_url)
 db = client.get_database(str(os.getenv('db_name')))
 records = db["users"]
