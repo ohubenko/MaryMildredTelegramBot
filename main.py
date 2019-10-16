@@ -74,8 +74,10 @@ def update_token():
               'grant_type': 'client_credentials'}
     request_update_token = rq.post(url_update_token, data=params)
     if request_update_token.status_code == 200:
-        print(request_update_token.json())
-        bot.send_message(admin_id, "Token has been update\nNew token: %s" % request_update_token.text)
+        update_json = request_update_token.json()
+        new_token = update_json.get('access_token')
+        os.environ['twitch_bearer'] = new_token
+        bot.send_message(admin_id, "Token has been update\nNew token: %s" % new_token)
     else:
         bot.send_message(admin_id, "Не удалось обновить токен доступа twitch")
 
