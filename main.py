@@ -13,7 +13,6 @@ streamer_url = str(os.getenv('streamer_url'))
 client_id = str(os.getenv('client_id'))
 url_update_token = str(os.getenv('url_update_token'))
 admin_id = int(os.getenv('admin_id'))
-# group_id = -118525812
 twitch_secret = str(os.getenv('twitch_secret'))
 # Создание бота и приложения Flask
 bot = telebot.TeleBot(TOKEN)
@@ -64,16 +63,17 @@ def command_stop(message):
     bot.reply_to(message, "Ты больше не будешь получать уведомления. Надеюсь ты вернешься.")
 
 
-@bot.message_handler(commands=['check'])
-def command_check_last_date(message):
-    date_json = twitch_hook_check()
-    date = datetime.datetime.strptime(date_json, '%Y-%m-%dT%H:%M:%SZ')
-    bot.send_message(admin_id, str(date))
-
-
 @bot.message_handler(commands=['updatetoken'])
 def command_update_token():
-    update_token()
+    params = {'client_id': client_id,
+              'client_secret': twitch_secret,
+              'grant_type': 'client_credentials'}
+    request_update_token = rq.post(url_update_token, data=params)
+    if request_update_token.status_code == 200:
+        print(request_update_token.json())
+        bot.send_message(admin_id, "Token has been update\nNew token: %s" % request_update_token.text)
+    else:
+        bot.send_message(admin_id, "Не удалось обновить токен доступа twitch")
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
@@ -258,18 +258,7 @@ def twitch_hook_set():
         bot.send_message(admin_id, "Что-то пошло не так")
 
 
-def update_token():
-    params = {'client_id': client_id,
-              'client_secret': twitch_secret,
-              'grant_type': 'client_credentials'}
-    request_update_token = rq.post(url_update_token, data=params)
-    if request_update_token.status_code == 200:
-        print(request_update_token.json())
-        bot.send_message(admin_id, "Token has been update\nNew token: %s" % request_update_token.text)
-    else:
-        bot.send_message(admin_id, "Не удалось обновить токен доступа twitch")
-
-
+@bot.message_handler(commands=['check'])
 def twitch_hook_check():
     response = rq.get('https://api.twitch.tv/helix/webhooks/subscriptions',
                       headers={"Authorization": "Bearer %s" % twitch_bearer})
@@ -278,9 +267,10 @@ def twitch_hook_check():
     if response_json == "":
         twitch_hook_set()
     elif response.status_code == 401:
-        update_token()
+        command_update_token()
     else:
-        date = response_json.get('data')[0].get('expires_at')
+        date = datetime.datetime.strptime(response_json.get('data')[0].get('expires_at'), '%Y-%m-%dT%H:%M:%SZ')
+        bot.send_message(admin_id, "Date to expiration of hook:" + str(date))
         return date
 
 
