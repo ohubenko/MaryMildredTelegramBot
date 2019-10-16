@@ -67,7 +67,7 @@ def command_stop(message):
 @bot.message_handler(commands=['check'])
 def command_check_last_date(message):
     date_json = twitch_hook_check()
-    date = datetime.datetime.strptime(date_json, '%Y-%m-%d %H:%M:%S')
+    date = datetime.datetime.strptime(date_json, '%Y-%m-%dT%H:%M:%SZ')
     bot.send_message(admin_id, str(date))
 
 
