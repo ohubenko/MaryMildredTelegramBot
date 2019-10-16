@@ -65,6 +65,10 @@ def command_stop(message):
 
 @bot.message_handler(commands=['updatetoken'])
 def command_update_token():
+    update_token()
+
+
+def update_token():
     params = {'client_id': client_id,
               'client_secret': twitch_secret,
               'grant_type': 'client_credentials'}
@@ -247,7 +251,7 @@ def twitch_hook_check():
     if response_json == "":
         twitch_hook_set()
     elif response.status_code == 401:
-        command_update_token()
+        update_token()
     else:
         date = datetime.datetime.strptime(response_json.get('data')[0].get('expires_at'), '%Y-%m-%dT%H:%M:%SZ')
         bot.send_message(admin_id, "Date to expiration of hook:" + str(date))
