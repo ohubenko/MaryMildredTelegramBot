@@ -64,7 +64,7 @@ def command_stop(message):
 
 
 @bot.message_handler(commands=['updatetoken'])
-def command_update_token():
+def command_update_token(message):
     update_token()
 
 
