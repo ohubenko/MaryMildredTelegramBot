@@ -245,7 +245,7 @@ def twitch_hook_set():
 
 
 @bot.message_handler(commands=['check'])
-def twitch_hook_check():
+def twitch_hook_check(message):
     response = rq.get('https://api.twitch.tv/helix/webhooks/subscriptions',
                       headers={"Authorization": "Bearer %s" % twitch_bearer})
     response_json = response.json()
