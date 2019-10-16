@@ -68,18 +68,20 @@ def command_update_token(message):
     update_token()
 
 
-def update_token():
-    params = {'client_id': client_id,
-              'client_secret': twitch_secret,
-              'grant_type': 'client_credentials'}
-    request_update_token = rq.post(url_update_token, data=params)
-    if request_update_token.status_code == 200:
-        update_json = request_update_token.json()
-        new_token = update_json.get('access_token')
-        os.environ['twitch_bearer'] = new_token
-        bot.send_message(admin_id, "Token has been update\nNew token: %s" % new_token)
+@bot.message_handler(commands=['check'])
+def twitch_hook_check(message):
+    response = rq.get('https://api.twitch.tv/helix/webhooks/subscriptions',
+                      headers={"Authorization": "Bearer %s" % twitch_bearer})
+    response_json = response.json()
+    print(response_json)
+    if response_json == "":
+        twitch_hook_set()
+    elif response.status_code == 401:
+        update_token()
     else:
-        bot.send_message(admin_id, "Не удалось обновить токен доступа twitch")
+        date = datetime.datetime.strptime(response_json.get('data')[0].get('expires_at'), '%Y-%m-%dT%H:%M:%SZ')
+        bot.send_message(admin_id, "Date to expiration of hook:" + str(date))
+        return date
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
@@ -222,6 +224,20 @@ def vk_attachemnts(attachments):
             bot.send_message(admin_id, "Пиздец, не отправляет вложения")
 
 
+def update_token():
+    params = {'client_id': client_id,
+              'client_secret': twitch_secret,
+              'grant_type': 'client_credentials'}
+    request_update_token = rq.post(url_update_token, data=params)
+    if request_update_token.status_code == 200:
+        update_json = request_update_token.json()
+        new_token = update_json.get('access_token')
+        os.environ['twitch_bearer'] = new_token
+        bot.send_message(admin_id, "Token has been update\nNew token: %s" % new_token)
+    else:
+        bot.send_message(admin_id, "Не удалось обновить токен доступа twitch")
+
+
 def twitch_hook_set():
     '''
     Установка хука на стрим
@@ -242,22 +258,6 @@ def twitch_hook_set():
         bot.send_message(admin_id, "Подписка продленна, автоматически")
     else:
         bot.send_message(admin_id, "Что-то пошло не так")
-
-
-@bot.message_handler(commands=['check'])
-def twitch_hook_check(message):
-    response = rq.get('https://api.twitch.tv/helix/webhooks/subscriptions',
-                      headers={"Authorization": "Bearer %s" % twitch_bearer})
-    response_json = response.json()
-    print(response_json)
-    if response_json == "":
-        twitch_hook_set()
-    elif response.status_code == 401:
-        update_token()
-    else:
-        date = datetime.datetime.strptime(response_json.get('data')[0].get('expires_at'), '%Y-%m-%dT%H:%M:%SZ')
-        bot.send_message(admin_id, "Date to expiration of hook:" + str(date))
-        return date
 
 
 @server.route('/')
