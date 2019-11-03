@@ -79,10 +79,9 @@ def twitch_hook_check(message):
     elif response.status_code == 401:
         update_token()
     else:
-        # date = datetime.datetime.strptime(response_json.get('data')[0].get('expires_at'), '%Y-%m-%dT%H:%M:%SZ')
-        # bot.send_message(admin_id, "Date to expiration of hook:" + str(date))
-        # return date
-        pass
+        date = datetime.datetime.strptime(response_json.get('data')[0].get('expires_at'), '%Y-%m-%dT%H:%M:%SZ')
+        bot.send_message(admin_id, "Date to expiration of hook:" + str(date))
+        return date
 
 
 @bot.message_handler(func=lambda message: True, content_types=['text'])
